@@ -1,18 +1,39 @@
 # Sidekick KR Kakao Trade Patch 설명문
 
-## 다운로드
+## GitHub 공개 배포 정보
 
-- 최신 ZIP 다운로드: [Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip](https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip)
-- 릴리스 페이지: [v2026.6.4-kr-kakao-20260618](https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/tag/v2026.6.4-kr-kakao-20260618)
-- SHA256: `F824C1DCD9A556DBF04DF6DF861364747FFF2A8D9D498C0B4C155DB6BF55193B`
+- GitHub 저장소: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch
+- 릴리스 페이지: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/tag/v2026.6.4-kr-kakao-20260618
+- 바로 다운로드: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip
+- 체크섬 파일: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip.sha256.txt
 
-> 공식 Sidekick 배포본이 아닌 한국 Kakao 거래 API 임시 패치판입니다. 공식 Sidekick에 동일 수정이 반영되면 공식 최신 버전을 사용하는 것을 권장합니다.
+> 이 배포본은 공식 Sidekick 배포본이 아니라, 한국 POE/POE2 거래소 주소 이전 문제를 임시로 해결하기 위한 비공식 패치판입니다.
 
 ## 한 줄 소개
 
 이 프로그램은 POE/POE2 거래 보조 프로그램인 Sidekick v2026.6.4 portable에 한국 POE2 거래소 주소 변경 패치를 적용한 비공식 임시 배포본입니다.
 
 한국 POE2가 Daum Games 도메인에서 Kakao Games 도메인으로 이전되면서, 기존 Sidekick 한국어 설정에서 거래 API 접속이 실패하는 문제가 생겼습니다. 이 배포본은 그 주소 문제를 임시로 수정해 한국어 아이템 가격 검색이 다시 동작하도록 만든 버전입니다.
+
+## 문제 증상
+
+한국어 POE2 환경에서 Sidekick 가격 검색을 실행하면 아래와 같은 API 오류 화면이 나올 수 있습니다.
+
+![Sidekick API 통신 실패 오류](assets/screenshots/sidekick-api-communication-failed.png)
+
+또는 거래 API 인증 관련 안내가 표시되면서 검색 결과가 나오지 않을 수 있습니다.
+
+![Sidekick 거래 API 인증 오류](assets/screenshots/sidekick-trade-api-auth-required.png)
+
+대표적인 증상은 다음과 같습니다.
+
+- `Sidekick failed to communicate with the API.`
+- `Sidekick failed to communicate with the trade API.`
+- `The trade website requires authentication, which Sidekick does not support currently.`
+- Sidekick을 삭제 후 재설치하거나 캐시를 초기화해도 한국어 가격 검색 오류가 반복됨
+- 영어 강제 검색으로는 일부 우회가 가능해 보일 수 있지만, 한국어 아이템 비교/검색 흐름에서는 실패함
+
+이 문제는 사용자의 설정이 잘못되었거나 Sidekick 전체가 고장난 것이라기보다, 한국 POE/POE2 거래소 주소가 Daum Games에서 Kakao Games로 이전된 뒤 Sidekick 한국어 거래 API 주소가 아직 옛 Daum 주소를 바라보는 데서 생긴 문제입니다.
 
 ## 만든 계기
 
