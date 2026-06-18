@@ -1,0 +1,159 @@
+# Sidekick KR Kakao Trade Patch 설명문
+
+## 다운로드
+
+- 최신 ZIP 다운로드: [Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip](https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip)
+- 릴리스 페이지: [v2026.6.4-kr-kakao-20260618](https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/tag/v2026.6.4-kr-kakao-20260618)
+- SHA256: `F824C1DCD9A556DBF04DF6DF861364747FFF2A8D9D498C0B4C155DB6BF55193B`
+
+> 공식 Sidekick 배포본이 아닌 한국 Kakao 거래 API 임시 패치판입니다. 공식 Sidekick에 동일 수정이 반영되면 공식 최신 버전을 사용하는 것을 권장합니다.
+
+## 한 줄 소개
+
+이 프로그램은 POE/POE2 거래 보조 프로그램인 Sidekick v2026.6.4 portable에 한국 POE2 거래소 주소 변경 패치를 적용한 비공식 임시 배포본입니다.
+
+한국 POE2가 Daum Games 도메인에서 Kakao Games 도메인으로 이전되면서, 기존 Sidekick 한국어 설정에서 거래 API 접속이 실패하는 문제가 생겼습니다. 이 배포본은 그 주소 문제를 임시로 수정해 한국어 아이템 가격 검색이 다시 동작하도록 만든 버전입니다.
+
+## 만든 계기
+
+최근 한국 POE2 서비스의 내부 거래소 주소가 기존 `poe.game.daum.net`에서 `poe.kakaogames.com`으로 바뀌었습니다.
+
+그런데 Sidekick v2026.6.4 기준으로 한국어 거래 API 주소가 아직 Daum Games 주소로 남아 있어, 한국어 POE2 설정에서 아이템 가격 검색을 하면 다음과 같은 오류가 발생했습니다.
+
+```text
+Sidekick failed to communicate with the trade API.
+The trade website requires authentication, which Sidekick does not support currently.
+```
+
+실제로는 Sidekick이 옛 Daum 주소로 요청을 보내고, 그 요청이 Kakao 주소로 리다이렉트되는 과정에서 `401 Unauthorized`가 발생하는 것이 핵심 원인이었습니다.
+
+공식 Sidekick 업데이트에서 이 부분이 반영되면 가장 좋지만, 당장 한국어 환경에서 가격 검색을 써야 하는 사람들이 있어 임시 패치판을 만들었습니다.
+
+## 어떤 부분을 패치했나
+
+Sidekick 소스의 한국어 게임 언어 설정 파일인 `GameLanguageKo.cs`에서 거래소 기본 주소만 바꿨습니다.
+
+기존 주소:
+
+```text
+https://poe.game.daum.net/trade/
+https://poe.game.daum.net/api/trade/
+https://poe.game.daum.net/trade2/
+https://poe.game.daum.net/api/trade2/
+```
+
+변경 주소:
+
+```text
+https://poe.kakaogames.com/trade/
+https://poe.kakaogames.com/api/trade/
+https://poe.kakaogames.com/trade2/
+https://poe.kakaogames.com/api/trade2/
+```
+
+즉, Sidekick의 핵심 기능을 새로 만든 것이 아니라 한국어 거래 API 접속 주소를 현재 Kakao Games 주소로 교체한 패치입니다.
+
+## 한국어 검색 검증 내용
+
+이 패치가 영어 강제검색으로만 동작하는지 확인한 것이 아니라, 한국어 설정 그대로 검증했습니다.
+
+검증 조건:
+
+```text
+LanguageParser=ko
+LanguageUi=ko
+UseInvariantTradeResults=False
+```
+
+검증 아이템:
+
+```text
+진홍색 목걸이
+```
+
+검증 결과:
+
+```text
+DefinitionTradeType=진홍색 목걸이
+SearchTotal=10000
+결과 예시: 진홍색 목걸이 - 환희, 진홍색 목걸이 - 돌풍
+```
+
+즉, Sidekick 내부에서 한국어 아이템을 한국어 거래 검색값으로 인식하고, Kakao 거래 API에서 한국어 결과를 받아오는 것까지 확인했습니다.
+
+## 사용 방법
+
+1. ZIP 파일을 원하는 폴더에 압축 해제합니다.
+2. `Start-Sidekick-Clean.cmd`를 실행합니다.
+3. Sidekick 설정에서 게임 언어와 UI 언어를 Korean으로 맞춥니다.
+4. 리그를 현재 POE2 리그로 선택합니다.
+5. 영어 강제 검색 옵션은 꺼둡니다.
+6. POE2에서 아이템 위에 마우스를 올리고 Sidekick 가격 검색 단축키를 사용합니다.
+
+기본 가격 검색 단축키는 Sidekick 기본값 기준 `Ctrl+D`입니다.
+
+## 왜 `Start-Sidekick-Clean.cmd`로 실행하나
+
+일부 Windows 환경에서 Sidekick 재실행 시 WebView2 관련 오류가 발생할 수 있습니다.
+
+```text
+System.Runtime.InteropServices.COMException (0x8007139F)
+```
+
+이 배포본에는 그 문제를 줄이기 위해 WebView2 잔여 캐시와 DPI 호환성 값을 정리한 뒤 Sidekick을 실행하는 보조 스크립트가 포함되어 있습니다.
+
+그래서 가능하면 루트의 `Sidekick.exe`를 직접 실행하기보다 `Start-Sidekick-Clean.cmd`로 실행하는 것을 권장합니다.
+
+## 공식 업데이트 후 다시 안 되면
+
+Sidekick 공식 업데이트가 실행되면 패치된 `Sidekick.Data.dll`이 공식 파일로 덮어써질 수 있습니다.
+
+그 경우 다시 한국어 거래 API 오류가 날 수 있습니다. 이때는 Sidekick을 종료한 뒤 아래 파일을 실행하면 패치를 다시 적용할 수 있습니다.
+
+```text
+Apply-Sidekick-KakaoTradePatch.ps1
+```
+
+PowerShell 실행 정책 때문에 바로 실행이 안 되면, 압축을 푼 폴더에서 PowerShell을 열고 다음처럼 실행할 수 있습니다.
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Apply-Sidekick-KakaoTradePatch.ps1
+```
+
+## 주의사항
+
+- 이 파일은 공식 Sidekick 배포본이 아닙니다.
+- 원본 Sidekick은 MIT 라이선스 프로젝트입니다.
+- 원본 프로젝트 주소: https://github.com/Sidekick-Poe/Sidekick
+- 이 패치는 한국 POE/POE2 거래소 주소 이전에 대응하기 위한 임시 수정입니다.
+- 공식 Sidekick에서 Kakao 주소 패치가 반영되면 공식 최신 버전을 사용하는 것이 가장 좋습니다.
+- 사용 중 문제가 생기면 압축을 새 폴더에 다시 풀고 `Start-Sidekick-Clean.cmd`로 실행해 보세요.
+
+## 포함 파일 요약
+
+```text
+Start-Sidekick-Clean.cmd
+  권장 실행 파일입니다.
+
+current\Sidekick.Data.dll
+  Kakao 거래 API 주소가 적용된 패치 DLL입니다.
+
+Apply-Sidekick-KakaoTradePatch.ps1
+  공식 업데이트 후 패치가 풀렸을 때 다시 적용하는 스크립트입니다.
+
+README_KR.md
+  짧은 사용 안내입니다.
+
+BUILD_INFO.txt
+  빌드/검증 정보와 해시입니다.
+
+LICENSE.txt
+  원본 Sidekick MIT 라이선스입니다.
+
+source-modification\Sidekick-KakaoTrade.patch
+  실제 변경된 소스 diff입니다.
+```
+
+## 요약
+
+이 배포본은 한국 POE2 거래소 주소 이전 때문에 깨진 Sidekick 한국어 가격 검색을 임시로 복구하기 위한 패치판입니다. 영어 강제검색이 아니라 한국어 아이템명으로 검색하고 한국어 결과가 나오는 경로를 확인했습니다. 공식 패치가 나오기 전까지 한국어 사용자가 임시로 쓰기 위한 용도입니다.

@@ -1,0 +1,28 @@
+Package: Sidekick-KR-KakaoTrade-v2026.6.4-20260618
+Base: Sidekick v2026.6.4 portable
+Source repository: https://github.com/Sidekick-Poe/Sidekick
+Source commit: eb8cecc
+Source tag: v2026.6.4
+Patch date: 2026-06-18
+
+Modified file:
+src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs
+
+Change:
+Korean POE/POE2 trade web/API base URLs changed from poe.game.daum.net to poe.kakaogames.com.
+
+Verification:
+LanguageParser=ko
+LanguageUi=ko
+LeagueId=poe2.Runes of Aldur
+UseInvariantTradeResults=False
+ParsedItem=진홍색 목걸이
+DefinitionTradeType=진홍색 목걸이
+SearchTotal=10000
+Fetch results included Korean item names such as 진홍색 목걸이 - 환희 and 진홍색 목걸이 - 돌풍.
+
+SHA256:
+current\Sidekick.Data.dll               88572BA19222A9C32FD7DFA33EC506A8F24170980FA29CEED87CAF99AE8CE121
+patches\Sidekick.Data.kakao-patched.dll 88572BA19222A9C32FD7DFA33EC506A8F24170980FA29CEED87CAF99AE8CE121
+Sidekick.exe                            C318075F65022223C615E855CF53D1D161E23B9418F7472F4430862FEE530BC0
+current\Sidekick.exe                    BA2750FE7A4516B28FC2AC07B410E90C078619C1BBE48263C8FF15FF73CD4F2E
