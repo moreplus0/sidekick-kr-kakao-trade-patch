@@ -8,6 +8,7 @@
 - 체크섬 파일: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip.sha256.txt
 
 > 이 배포본은 공식 Sidekick 배포본이 아니라, 한국 POE/POE2 거래소 주소 이전 문제를 임시로 해결하기 위한 비공식 패치판입니다.
+> 다운로드 ZIP에는 실행에 필요한 포터블 파일만 포함했습니다. 설명, 스크린샷, 체크섬, 패치 diff는 이 GitHub 저장소와 릴리스 페이지에서 확인할 수 있습니다.
 
 ## 한 줄 소개
 
@@ -105,7 +106,7 @@ SearchTotal=10000
 ## 사용 방법
 
 1. ZIP 파일을 원하는 폴더에 압축 해제합니다.
-2. `Start-Sidekick-Clean.cmd`를 실행합니다.
+2. 압축을 푼 폴더의 `Sidekick.exe`를 실행합니다.
 3. Sidekick 설정에서 게임 언어와 UI 언어를 Korean으로 맞춥니다.
 4. 리그를 현재 POE2 리그로 선택합니다.
 5. 영어 강제 검색 옵션은 꺼둡니다.
@@ -113,33 +114,25 @@ SearchTotal=10000
 
 기본 가격 검색 단축키는 Sidekick 기본값 기준 `Ctrl+D`입니다.
 
-## 왜 `Start-Sidekick-Clean.cmd`로 실행하나
+## ZIP 구성 정책
 
-일부 Windows 환경에서 Sidekick 재실행 시 WebView2 관련 오류가 발생할 수 있습니다.
+공유용 ZIP은 실행에 직접 필요한 파일만 남긴 최소 포터블 구성입니다.
 
 ```text
-System.Runtime.InteropServices.COMException (0x8007139F)
+.portable
+Sidekick.exe
+Update.exe
+current\
+packages\.betaId
 ```
 
-이 배포본에는 그 문제를 줄이기 위해 WebView2 잔여 캐시와 DPI 호환성 값을 정리한 뒤 Sidekick을 실행하는 보조 스크립트가 포함되어 있습니다.
-
-그래서 가능하면 루트의 `Sidekick.exe`를 직접 실행하기보다 `Start-Sidekick-Clean.cmd`로 실행하는 것을 권장합니다.
+그래서 ZIP 안에는 설명서, 스크린샷, 작업용 PowerShell 스크립트, 소스 diff, 빌드 정보 파일을 넣지 않았습니다. 관련 설명은 이 저장소 README와 릴리스 노트에만 남겨두었습니다.
 
 ## 공식 업데이트 후 다시 안 되면
 
 Sidekick 공식 업데이트가 실행되면 패치된 `Sidekick.Data.dll`이 공식 파일로 덮어써질 수 있습니다.
 
-그 경우 다시 한국어 거래 API 오류가 날 수 있습니다. 이때는 Sidekick을 종료한 뒤 아래 파일을 실행하면 패치를 다시 적용할 수 있습니다.
-
-```text
-Apply-Sidekick-KakaoTradePatch.ps1
-```
-
-PowerShell 실행 정책 때문에 바로 실행이 안 되면, 압축을 푼 폴더에서 PowerShell을 열고 다음처럼 실행할 수 있습니다.
-
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Apply-Sidekick-KakaoTradePatch.ps1
-```
+그 경우 다시 한국어 거래 API 오류가 날 수 있습니다. 이때는 Sidekick을 종료하고 이 릴리스의 ZIP을 다시 받아 새 폴더에 압축 해제한 뒤 `Sidekick.exe`를 실행하세요.
 
 ## 주의사항
 
@@ -148,31 +141,25 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Apply-Sidekick-KakaoTr
 - 원본 프로젝트 주소: https://github.com/Sidekick-Poe/Sidekick
 - 이 패치는 한국 POE/POE2 거래소 주소 이전에 대응하기 위한 임시 수정입니다.
 - 공식 Sidekick에서 Kakao 주소 패치가 반영되면 공식 최신 버전을 사용하는 것이 가장 좋습니다.
-- 사용 중 문제가 생기면 압축을 새 폴더에 다시 풀고 `Start-Sidekick-Clean.cmd`로 실행해 보세요.
+- 사용 중 문제가 생기면 압축을 새 폴더에 다시 풀고 `Sidekick.exe`로 실행해 보세요.
 
 ## 포함 파일 요약
 
 ```text
-Start-Sidekick-Clean.cmd
-  권장 실행 파일입니다.
+.portable
+  Velopack 포터블 실행 표식입니다.
 
-current\Sidekick.Data.dll
-  Kakao 거래 API 주소가 적용된 패치 DLL입니다.
+Sidekick.exe
+  포터블 루트 실행 파일입니다.
 
-Apply-Sidekick-KakaoTradePatch.ps1
-  공식 업데이트 후 패치가 풀렸을 때 다시 적용하는 스크립트입니다.
+Update.exe
+  Sidekick 포터블 런처/업데이트 구성에 필요한 실행 파일입니다.
 
-README_KR.md
-  짧은 사용 안내입니다.
+current\
+  실제 Sidekick 앱 파일과 Kakao 거래 API 주소가 적용된 current\Sidekick.Data.dll이 들어 있습니다.
 
-BUILD_INFO.txt
-  빌드/검증 정보와 해시입니다.
-
-LICENSE.txt
-  원본 Sidekick MIT 라이선스입니다.
-
-source-modification\Sidekick-KakaoTrade.patch
-  실제 변경된 소스 diff입니다.
+packages\.betaId
+  포터블 패키지 상태값입니다.
 ```
 
 ## 요약

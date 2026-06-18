@@ -2,6 +2,8 @@
 
 이 압축파일은 Sidekick v2026.6.4 portable에 한국 POE/POE2 거래 API 주소 패치를 적용한 비공식 배포본입니다.
 
+ZIP 안에는 실행에 필요한 포터블 파일만 포함했습니다. 설명서, 스크린샷, 작업용 PowerShell 스크립트, 소스 diff는 GitHub 저장소와 릴리스 페이지에서 확인할 수 있습니다.
+
 ## 무엇이 바뀌었나
 
 - 한국 거래 API 주소를 `poe.game.daum.net`에서 `poe.kakaogames.com`으로 변경했습니다.
@@ -11,7 +13,7 @@
 ## 실행 방법
 
 1. 압축을 원하는 폴더에 풉니다.
-2. `Start-Sidekick-Clean.cmd`를 실행합니다.
+2. 압축을 푼 폴더의 `Sidekick.exe`를 실행합니다.
 3. POE/POE2를 관리자 권한으로 실행 중이면 Sidekick도 관리자 권한으로 뜰 수 있습니다.
 
 ## Sidekick 설정 권장값
@@ -25,16 +27,21 @@
 
 Sidekick 공식 업데이트가 `current\Sidekick.Data.dll`을 덮어쓰면 패치가 사라질 수 있습니다.
 
-그때는 Sidekick을 종료한 뒤 `Apply-Sidekick-KakaoTradePatch.ps1`을 PowerShell로 실행하세요.
+그때는 Sidekick을 종료한 뒤 이 릴리스의 ZIP을 다시 받아 새 폴더에 압축 해제하고 `Sidekick.exe`를 실행하세요.
 
-## WebView2 재실행 오류가 있으면
+## ZIP 안에 들어 있는 파일
 
-`0x8007139F` 또는 WebView2 관련 오류가 반복되면 `Start-Sidekick-Clean.cmd`로 실행하세요.
-계속 반복되면 `Install-Sidekick-Guard.ps1`을 한 번 실행하면 WebView2 DPI 호환성 잔여값을 자동 정리합니다.
+```text
+.portable
+Sidekick.exe
+Update.exe
+current\
+packages\.betaId
+```
 
 ## 주의
 
 - 공식 Sidekick 배포본이 아닙니다.
 - 원본 프로젝트: https://github.com/Sidekick-Poe/Sidekick
-- 원본 라이선스는 MIT이며 `LICENSE.txt`에 포함했습니다.
+- 원본 라이선스는 MIT이며 라이선스 전문은 이 저장소의 `LICENSE`에서 확인할 수 있습니다.
 - 이 패치는 한국 서비스 주소 이전에 따른 임시 수정입니다. 공식 Sidekick에서 같은 수정이 반영되면 공식 최신 버전을 쓰는 것이 좋습니다.
