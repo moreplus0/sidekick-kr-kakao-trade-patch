@@ -1,0 +1,149 @@
+<div style="max-width:860px;margin:0 auto;padding:24px 18px;font-family:Arial,'Noto Sans KR','Malgun Gothic',sans-serif;line-height:1.72;color:#24292f;background:#ffffff;">
+  <h1 style="margin:0 0 12px;font-size:28px;line-height:1.3;color:#111827;">Sidekick KR Kakao Trade Patch</h1>
+
+  <p style="margin:0 0 16px;font-size:16px;">
+    POE/POE2 거래 보조 프로그램 <strong>Sidekick v2026.6.4 portable</strong>에 한국 POE/POE2 거래소 주소 변경 패치를 적용한
+    <strong>비공식 임시 배포본</strong>입니다.
+  </p>
+
+  <div style="margin:18px 0;padding:14px 16px;border:1px solid #facc15;background:#fffbeb;border-radius:8px;">
+    <p style="margin:0;font-size:15px;">
+      이 배포본은 공식 Sidekick 배포본이 아닙니다. 한국 거래소 주소가 Daum Games에서 Kakao Games로 이전된 뒤,
+      Sidekick 한국어 거래 API 접속이 실패하는 문제를 임시로 우회하기 위한 패치판입니다.
+    </p>
+  </div>
+
+  <p style="margin:18px 0;">
+    <a href="https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip"
+       style="display:inline-block;padding:12px 18px;margin:0 8px 8px 0;background:#dc2626;color:#ffffff;text-decoration:none;border-radius:8px;font-weight:700;">
+      ZIP 다운로드
+    </a>
+    <a href="https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/tag/v2026.6.4-kr-kakao-20260618"
+       style="display:inline-block;padding:12px 18px;margin:0 8px 8px 0;background:#1f2937;color:#ffffff;text-decoration:none;border-radius:8px;font-weight:700;">
+      릴리스 페이지
+    </a>
+    <a href="https://github.com/moreplus0/sidekick-kr-kakao-trade-patch"
+       style="display:inline-block;padding:12px 18px;margin:0 8px 8px 0;background:#374151;color:#ffffff;text-decoration:none;border-radius:8px;font-weight:700;">
+      GitHub 저장소
+    </a>
+  </p>
+
+  <h2 style="margin:30px 0 12px;font-size:22px;color:#111827;">문제 증상</h2>
+
+  <p style="margin:0 0 14px;">
+    한국어 POE2 환경에서 Sidekick 가격 검색을 실행하면 아래처럼 API 통신 실패 화면이 나올 수 있습니다.
+  </p>
+
+  <p style="margin:0 0 18px;">
+    <img src="https://raw.githubusercontent.com/moreplus0/sidekick-kr-kakao-trade-patch/main/assets/screenshots/sidekick-api-communication-failed.png"
+         alt="Sidekick API 통신 실패 오류 화면"
+         style="display:block;width:100%;max-width:760px;height:auto;border:1px solid #d1d5db;border-radius:8px;">
+  </p>
+
+  <p style="margin:0 0 14px;">
+    또는 거래 API 인증 관련 안내가 표시되면서 검색 결과가 나오지 않을 수 있습니다.
+  </p>
+
+  <p style="margin:0 0 18px;">
+    <img src="https://raw.githubusercontent.com/moreplus0/sidekick-kr-kakao-trade-patch/main/assets/screenshots/sidekick-trade-api-auth-required.png"
+         alt="Sidekick 거래 API 인증 오류 화면"
+         style="display:block;width:100%;max-width:760px;height:auto;border:1px solid #d1d5db;border-radius:8px;">
+  </p>
+
+  <ul style="margin:0 0 18px 22px;padding:0;">
+    <li><code>Sidekick failed to communicate with the API.</code></li>
+    <li><code>Sidekick failed to communicate with the trade API.</code></li>
+    <li><code>The trade website requires authentication, which Sidekick does not support currently.</code></li>
+    <li>Sidekick을 삭제 후 재설치하거나 캐시를 초기화해도 한국어 가격 검색 오류가 반복됨</li>
+    <li>영어 강제 검색으로는 일부 우회가 가능해 보일 수 있지만, 한국어 아이템 비교/검색 흐름에서는 실패함</li>
+  </ul>
+
+  <h2 style="margin:30px 0 12px;font-size:22px;color:#111827;">원인</h2>
+
+  <p style="margin:0 0 14px;">
+    최근 한국 POE/POE2 서비스의 거래소 주소가 기존 <code>poe.game.daum.net</code>에서
+    <code>poe.kakaogames.com</code>으로 바뀌었습니다.
+  </p>
+  <p style="margin:0 0 14px;">
+    그런데 Sidekick v2026.6.4 기준 한국어 거래 API 주소가 아직 Daum Games 주소를 바라보고 있어,
+    한국어 설정에서 거래 API 접속이 실패하는 문제가 발생했습니다.
+  </p>
+
+  <h2 style="margin:30px 0 12px;font-size:22px;color:#111827;">패치한 부분</h2>
+
+  <p style="margin:0 0 14px;">
+    Sidekick의 한국어 게임 언어 설정인 <code>GameLanguageKo.cs</code>에서 거래소 기본 주소만 교체했습니다.
+  </p>
+
+  <pre style="white-space:pre-wrap;word-break:break-word;margin:0 0 14px;padding:14px;background:#f6f8fa;border:1px solid #d8dee4;border-radius:8px;font-size:14px;">기존:
+https://poe.game.daum.net/trade/
+https://poe.game.daum.net/api/trade/
+https://poe.game.daum.net/trade2/
+https://poe.game.daum.net/api/trade2/
+
+변경:
+https://poe.kakaogames.com/trade/
+https://poe.kakaogames.com/api/trade/
+https://poe.kakaogames.com/trade2/
+https://poe.kakaogames.com/api/trade2/</pre>
+
+  <h2 style="margin:30px 0 12px;font-size:22px;color:#111827;">한국어 검색 검증</h2>
+
+  <p style="margin:0 0 14px;">
+    영어 강제 검색이 아니라 한국어 설정 그대로 검증했습니다.
+  </p>
+
+  <pre style="white-space:pre-wrap;word-break:break-word;margin:0 0 14px;padding:14px;background:#f6f8fa;border:1px solid #d8dee4;border-radius:8px;font-size:14px;">LanguageParser=ko
+LanguageUi=ko
+UseInvariantTradeResults=False
+검증 아이템=진홍색 목걸이
+DefinitionTradeType=진홍색 목걸이
+SearchTotal=10000
+결과 예시=진홍색 목걸이 - 환희, 진홍색 목걸이 - 돌풍</pre>
+
+  <h2 style="margin:30px 0 12px;font-size:22px;color:#111827;">사용 방법</h2>
+
+  <ol style="margin:0 0 18px 22px;padding:0;">
+    <li>ZIP 파일을 원하는 폴더에 압축 해제합니다.</li>
+    <li>압축을 푼 폴더의 <code>Sidekick.exe</code>를 실행합니다.</li>
+    <li>Sidekick 설정에서 게임 언어와 UI 언어를 Korean으로 맞춥니다.</li>
+    <li>리그를 현재 POE2 리그로 선택합니다.</li>
+    <li>영어 강제 검색 옵션은 꺼둡니다.</li>
+    <li>POE2에서 아이템 위에 마우스를 올리고 Sidekick 가격 검색 단축키를 사용합니다.</li>
+  </ol>
+
+  <p style="margin:0 0 14px;">
+    기본 가격 검색 단축키는 Sidekick 기본값 기준 <code>Ctrl+D</code>입니다.
+  </p>
+
+  <h2 style="margin:30px 0 12px;font-size:22px;color:#111827;">ZIP 구성</h2>
+
+  <p style="margin:0 0 14px;">
+    다운로드 ZIP에는 실행에 필요한 포터블 파일만 남겼습니다. 설명서, 작업용 PowerShell 스크립트, 소스 diff, 빌드 정보 파일은 ZIP에서 제외했습니다.
+  </p>
+
+  <pre style="white-space:pre-wrap;word-break:break-word;margin:0 0 14px;padding:14px;background:#f6f8fa;border:1px solid #d8dee4;border-radius:8px;font-size:14px;">.portable
+Sidekick.exe
+Update.exe
+current\
+packages\</pre>
+
+  <h2 style="margin:30px 0 12px;font-size:22px;color:#111827;">다운로드 정보</h2>
+
+  <ul style="margin:0 0 18px 22px;padding:0;">
+    <li>GitHub 저장소: <a href="https://github.com/moreplus0/sidekick-kr-kakao-trade-patch">https://github.com/moreplus0/sidekick-kr-kakao-trade-patch</a></li>
+    <li>릴리스 페이지: <a href="https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/tag/v2026.6.4-kr-kakao-20260618">https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/tag/v2026.6.4-kr-kakao-20260618</a></li>
+    <li>ZIP 다운로드: <a href="https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip">Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip</a></li>
+    <li>SHA256: <code>ADF759289ED2DE92BD5152C894E00233A580C3AD68B550DCF9F03AF61AC4BF53</code></li>
+  </ul>
+
+  <h2 style="margin:30px 0 12px;font-size:22px;color:#111827;">주의사항</h2>
+
+  <ul style="margin:0 0 18px 22px;padding:0;">
+    <li>이 파일은 공식 Sidekick 배포본이 아닙니다.</li>
+    <li>원본 Sidekick은 MIT 라이선스 프로젝트입니다.</li>
+    <li>원본 프로젝트 주소: <a href="https://github.com/Sidekick-Poe/Sidekick">https://github.com/Sidekick-Poe/Sidekick</a></li>
+    <li>공식 Sidekick에서 Kakao 주소 패치가 반영되면 공식 최신 버전을 사용하는 것이 가장 좋습니다.</li>
+    <li>공식 업데이트 후 다시 오류가 나면 이 릴리스의 ZIP을 새로 받아 새 폴더에 압축 해제한 뒤 실행하세요.</li>
+  </ul>
+</div>

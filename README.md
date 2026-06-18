@@ -4,6 +4,8 @@
 
 - GitHub 저장소: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch
 - 공유용 설명문: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/blob/main/%EA%B3%B5%EC%9C%A0%EC%9A%A9_%EC%84%A4%EB%AA%85%EB%AC%B8.md
+- 게시판용 HTML: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/blob/main/%EA%B3%B5%EC%9C%A0%EC%9A%A9_%EA%B2%8C%EC%8B%9C%ED%8C%90_HTML.html
+- 게시판용 HTML 원문 복사: https://raw.githubusercontent.com/moreplus0/sidekick-kr-kakao-trade-patch/main/%EA%B3%B5%EC%9C%A0%EC%9A%A9_%EA%B2%8C%EC%8B%9C%ED%8C%90_HTML.html
 - 오류 스크린샷 저장 위치: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/tree/main/assets/screenshots
 - 릴리스 페이지: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/tag/v2026.6.4-kr-kakao-20260618
 - 바로 다운로드: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip
