@@ -1,16 +1,20 @@
-Package: Sidekick-KR-KakaoTrade-v2026.6.4-20260618
+Package: Sidekick-KR-KakaoTrade-v2026.6.4-20260619
 Base: Sidekick v2026.6.4 portable
 Source repository: https://github.com/Sidekick-Poe/Sidekick
 Source commit: eb8cecc
 Source tag: v2026.6.4
-Patch date: 2026-06-18
-Distribution update: runtime-only ZIP regenerated on 2026-06-18
+Patch date: 2026-06-19
+Distribution update: runtime-only ZIP regenerated on 2026-06-19
 
-Modified file:
+Modified files:
 src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs
+src/Sidekick.Common/Converters/StringOrObjectListJsonConverter.cs
+src/Sidekick.Apis.Poe.Trade/Trade/Models/ApiItem.cs
+tests/Sidekick.Apis.Poe.Tests/Trade/ApiItemModListParsing.cs
 
 Change:
 Korean POE/POE2 trade web/API base URLs changed from poe.game.daum.net to poe.kakaogames.com.
+Kakao trade2/fetch mod lists can now deserialize either strings or objects with a description field.
 
 Verification:
 LanguageParser=ko
@@ -21,10 +25,13 @@ ParsedItem=진홍색 목걸이
 DefinitionTradeType=진홍색 목걸이
 SearchTotal=10000
 Fetch results included Korean item names such as 진홍색 목걸이 - 환희 and 진홍색 목걸이 - 돌풍.
+Fetch response for 경계하는 시야 / 에메랄드 반지 included object-shaped explicitMods.
+Regression test passed: ApiItemModListParsing.DeserializesModsReturnedAsStringsOrObjects.
 
 SHA256:
-current\Sidekick.Data.dll               88572BA19222A9C32FD7DFA33EC506A8F24170980FA29CEED87CAF99AE8CE121
-patches\Sidekick.Data.kakao-patched.dll 88572BA19222A9C32FD7DFA33EC506A8F24170980FA29CEED87CAF99AE8CE121
+current\Sidekick.Common.dll             368DA8AE4EFBE5446DC5085A1D3D249E636793CC612B89390B9B0265768D3DC1
+current\Sidekick.Apis.Poe.Trade.dll     DCFE7446999784E3AC34825AD92A31F7E56F8D482D5B04CCEB2BC6F8B443E2D0
+current\Sidekick.Data.dll               2B5492B40AD4280FA832F27282689BAD196951E7829E7E99B390FE3B617F7A12
 Sidekick.exe                            C318075F65022223C615E855CF53D1D161E23B9418F7472F4430862FEE530BC0
 current\Sidekick.exe                    BA2750FE7A4516B28FC2AC07B410E90C078619C1BBE48263C8FF15FF73CD4F2E
-Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip ADF759289ED2DE92BD5152C894E00233A580C3AD68B550DCF9F03AF61AC4BF53
+Sidekick-KR-KakaoTrade-v2026.6.4-20260619.zip 40E760BAA53BD7F66C1AC926E9FB04085098CA70FB7C53F8E0783D156263C47F

@@ -1,0 +1,232 @@
+﻿diff --git a/src/Sidekick.Apis.Poe.Trade/Trade/Models/ApiItem.cs b/src/Sidekick.Apis.Poe.Trade/Trade/Models/ApiItem.cs
+index 3d99a95..eaa29aa 100644
+--- a/src/Sidekick.Apis.Poe.Trade/Trade/Models/ApiItem.cs
++++ b/src/Sidekick.Apis.Poe.Trade/Trade/Models/ApiItem.cs
+@@ -70,39 +70,51 @@ public class ApiItem
+     public List<ApiItemLineContent> AdditionalProperties { get; set; } = [];
+ 
+     [JsonPropertyName("implicitMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> ImplicitMods { get; set; } = [];
+ 
+     [JsonPropertyName("craftedMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> CraftedMods { get; set; } = [];
+ 
+     [JsonPropertyName("explicitMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> ExplicitMods { get; set; } = [];
+ 
+     [JsonPropertyName("utilityMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> UtilityMods { get; set; } = [];
+ 
+     [JsonPropertyName("pseudoMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> PseudoMods { get; set; } = [];
+ 
+     [JsonPropertyName("enchantMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> EnchantMods { get; set; } = [];
+ 
+     [JsonPropertyName("runeMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> RuneMods { get; set; } = [];
+ 
+     [JsonPropertyName("fracturedMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> FracturedMods { get; set; } = [];
+ 
+     [JsonPropertyName("desecratedMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> DesecratedMods { get; set; } = [];
+ 
+     [JsonPropertyName("scourgeMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> ScourgeMods { get; set; } = [];
+ 
+     [JsonPropertyName("sanctumMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> SanctumMods { get; set; } = [];
+ 
+     [JsonPropertyName("mutatedMods")]
++    [JsonConverter(typeof(StringOrObjectListJsonConverter))]
+     public List<string> MutatedMods { get; set; } = [];
+ 
+     public List<string> GemSockets { get; set; } = [];
+diff --git a/src/Sidekick.Common/Converters/StringOrObjectListJsonConverter.cs b/src/Sidekick.Common/Converters/StringOrObjectListJsonConverter.cs
+new file mode 100644
+index 0000000..8417774
+--- /dev/null
++++ b/src/Sidekick.Common/Converters/StringOrObjectListJsonConverter.cs
+@@ -0,0 +1,90 @@
++using System.Text.Json;
++using System.Text.Json.Serialization;
++
++namespace Sidekick.Common.Converters;
++
++public class StringOrObjectListJsonConverter : JsonConverter<List<string>>
++{
++    public override List<string> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
++    {
++        var values = new List<string>();
++
++        if (reader.TokenType == JsonTokenType.Null)
++        {
++            return values;
++        }
++
++        if (reader.TokenType != JsonTokenType.StartArray)
++        {
++            AddValue(ref reader, values);
++            return values;
++        }
++
++        while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
++        {
++            AddValue(ref reader, values);
++        }
++
++        return values;
++    }
++
++    public override void Write(Utf8JsonWriter writer, List<string> value, JsonSerializerOptions options)
++    {
++        writer.WriteStartArray();
++        foreach (var item in value)
++        {
++            writer.WriteStringValue(item);
++        }
++
++        writer.WriteEndArray();
++    }
++
++    private static void AddValue(ref Utf8JsonReader reader, List<string> values)
++    {
++        switch (reader.TokenType)
++        {
++            case JsonTokenType.String:
++                var stringValue = reader.GetString();
++                if (!string.IsNullOrWhiteSpace(stringValue))
++                {
++                    values.Add(stringValue);
++                }
++
++                break;
++
++            case JsonTokenType.StartObject:
++                using (var document = JsonDocument.ParseValue(ref reader))
++                {
++                    if (TryGetString(document.RootElement, "description", out var description) ||
++                        TryGetString(document.RootElement, "text", out description))
++                    {
++                        values.Add(description);
++                    }
++                }
++
++                break;
++
++            default:
++                reader.Skip();
++                break;
++        }
++    }
++
++    private static bool TryGetString(JsonElement element, string propertyName, out string value)
++    {
++        value = string.Empty;
++        if (!element.TryGetProperty(propertyName, out var property) || property.ValueKind != JsonValueKind.String)
++        {
++            return false;
++        }
++
++        var stringValue = property.GetString();
++        if (string.IsNullOrWhiteSpace(stringValue))
++        {
++            return false;
++        }
++
++        value = stringValue;
++        return true;
++    }
++}
+diff --git a/src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs b/src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs
+index cb330e0..4cf909c 100644
+--- a/src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs
++++ b/src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs
+@@ -6,10 +6,10 @@ public class GameLanguageKo : IGameLanguage
+     public string Code => "ko";
+     public string Label => "Korean";
+ 
+-    public string PoeTradeBaseUrl => "https://poe.game.daum.net/trade/";
+-    public string PoeTradeApiBaseUrl => "https://poe.game.daum.net/api/trade/";
+-    public string Poe2TradeBaseUrl => "https://poe.game.daum.net/trade2/";
+-    public string Poe2TradeApiBaseUrl => "https://poe.game.daum.net/api/trade2/";
++    public string PoeTradeBaseUrl => "https://poe.kakaogames.com/trade/";
++    public string PoeTradeApiBaseUrl => "https://poe.kakaogames.com/api/trade/";
++    public string Poe2TradeBaseUrl => "https://poe.kakaogames.com/trade2/";
++    public string Poe2TradeApiBaseUrl => "https://poe.kakaogames.com/api/trade2/";
+ 
+     public string RarityUnique => "고유";
+     public string RarityRare => "희귀";
+diff --git a/tests/Sidekick.Apis.Poe.Tests/Trade/ApiItemModListParsing.cs b/tests/Sidekick.Apis.Poe.Tests/Trade/ApiItemModListParsing.cs
+new file mode 100644
+index 0000000..d8ef49b
+--- /dev/null
++++ b/tests/Sidekick.Apis.Poe.Tests/Trade/ApiItemModListParsing.cs
+@@ -0,0 +1,55 @@
++using System.Text.Json;
++using Sidekick.Apis.Poe.Trade.Trade.Models;
++using Xunit;
++
++namespace Sidekick.Apis.Poe.Tests.Trade;
++
++public class ApiItemModListParsing
++{
++    [Fact]
++    public void DeserializesModsReturnedAsStringsOrObjects()
++    {
++        const string json = """
++        {
++          "implicitMods": [
++            "[Accuracy|정확도] +141"
++          ],
++          "explicitMods": [
++            {
++              "description": "[Accuracy|정확도] +143",
++              "hash": "stat.explicit.stat_803737631",
++              "mods": [
++                {
++                  "magnitudes": [
++                    {
++                      "min": "100",
++                      "max": "150"
++                    }
++                  ]
++                }
++              ]
++            },
++            {
++              "text": "[Evasion|회피] +129"
++            },
++            "발견하는 [ItemRarity|아이템 희귀도] 16% 증가"
++          ]
++        }
++        """;
++
++        var item = JsonSerializer.Deserialize<ApiItem>(json, new JsonSerializerOptions
++        {
++            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
++        });
++
++        Assert.NotNull(item);
++        Assert.Equal(["[Accuracy|정확도] +141"], item.ImplicitMods);
++        Assert.Equal(
++            [
++                "[Accuracy|정확도] +143",
++                "[Evasion|회피] +129",
++                "발견하는 [ItemRarity|아이템 희귀도] 16% 증가",
++            ],
++            item.ExplicitMods);
++    }
++}

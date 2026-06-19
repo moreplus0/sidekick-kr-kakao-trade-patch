@@ -1,4 +1,4 @@
-# Sidekick KR Kakao Trade Patch 설명문
+﻿# Sidekick KR Kakao Trade Patch 설명문
 
 ## GitHub 공개 배포 정보
 
@@ -7,18 +7,18 @@
 - 게시판용 HTML: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/blob/main/%EA%B3%B5%EC%9C%A0%EC%9A%A9_%EA%B2%8C%EC%8B%9C%ED%8C%90_HTML.html
 - 게시판용 HTML 원문 복사: https://raw.githubusercontent.com/moreplus0/sidekick-kr-kakao-trade-patch/main/%EA%B3%B5%EC%9C%A0%EC%9A%A9_%EA%B2%8C%EC%8B%9C%ED%8C%90_HTML.html
 - 오류 스크린샷 저장 위치: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/tree/main/assets/screenshots
-- 릴리스 페이지: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/tag/v2026.6.4-kr-kakao-20260618
-- 바로 다운로드: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip
-- 체크섬 파일: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260618/Sidekick-KR-KakaoTrade-v2026.6.4-20260618.zip.sha256.txt
+- 릴리스 페이지: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/tag/v2026.6.4-kr-kakao-20260619
+- 바로 다운로드: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260619/Sidekick-KR-KakaoTrade-v2026.6.4-20260619.zip
+- 체크섬 파일: https://github.com/moreplus0/sidekick-kr-kakao-trade-patch/releases/download/v2026.6.4-kr-kakao-20260619/Sidekick-KR-KakaoTrade-v2026.6.4-20260619.zip.sha256.txt
 
 > 이 배포본은 공식 Sidekick 배포본이 아니라, 한국 POE/POE2 거래소 주소 이전 문제를 임시로 해결하기 위한 비공식 패치판입니다.
 > 다운로드 ZIP에는 실행에 필요한 포터블 파일만 포함했습니다. 설명, 스크린샷, 체크섬, 패치 diff는 이 GitHub 저장소와 릴리스 페이지에서 확인할 수 있습니다.
 
 ## 한 줄 소개
 
-이 프로그램은 POE/POE2 거래 보조 프로그램인 Sidekick v2026.6.4 portable에 한국 POE2 거래소 주소 변경 패치를 적용한 비공식 임시 배포본입니다.
+이 프로그램은 POE/POE2 거래 보조 프로그램인 Sidekick v2026.6.4 portable에 한국 POE2 거래소 주소 변경 패치와 2026-06-19 trade fetch 응답 스키마 변경 대응 패치를 적용한 비공식 임시 배포본입니다.
 
-한국 POE2가 Daum Games 도메인에서 Kakao Games 도메인으로 이전되면서, 기존 Sidekick 한국어 설정에서 거래 API 접속이 실패하는 문제가 생겼습니다. 이 배포본은 그 주소 문제를 임시로 수정해 한국어 아이템 가격 검색이 다시 동작하도록 만든 버전입니다.
+한국 POE2가 Daum Games 도메인에서 Kakao Games 도메인으로 이전되면서, 기존 Sidekick 한국어 설정에서 거래 API 접속이 실패하는 문제가 생겼습니다. 이후 2026-06-19에는 거래소 매물 fetch 응답의 일부 mod 데이터가 문자열에서 객체 형태로 바뀌어 검색 결과 표시 단계가 다시 실패했습니다. 이 배포본은 두 문제를 함께 임시 수정해 한국어 아이템 가격 검색이 다시 동작하도록 만든 버전입니다.
 
 ## 문제 증상
 
@@ -34,15 +34,23 @@
 
 이미지 직접 보기: https://raw.githubusercontent.com/moreplus0/sidekick-kr-kakao-trade-patch/main/assets/screenshots/sidekick-trade-api-auth-required.png
 
+2026-06-19 패치 이후에는 검색 API는 통과하지만 매물 목록을 가져오는 단계에서 아래처럼 오류가 날 수 있습니다.
+
+![Sidekick fetch listings 오류](https://raw.githubusercontent.com/moreplus0/sidekick-kr-kakao-trade-patch/main/assets/screenshots/sidekick-fetch-listings-mod-object-error.png)
+
+이미지 직접 보기: https://raw.githubusercontent.com/moreplus0/sidekick-kr-kakao-trade-patch/main/assets/screenshots/sidekick-fetch-listings-mod-object-error.png
+
 대표적인 증상은 다음과 같습니다.
 
 - `Sidekick failed to communicate with the API.`
 - `Sidekick failed to communicate with the trade API.`
 - `The trade website requires authentication, which Sidekick does not support currently.`
+- `Sidekick could not fetch the listings from the trade API.`
+- 검색 화면 우측에 `No results found`가 같이 표시됨
 - Sidekick을 삭제 후 재설치하거나 캐시를 초기화해도 한국어 가격 검색 오류가 반복됨
 - 영어 강제 검색으로는 일부 우회가 가능해 보일 수 있지만, 한국어 아이템 비교/검색 흐름에서는 실패함
 
-이 문제는 사용자의 설정이 잘못되었거나 Sidekick 전체가 고장난 것이라기보다, 한국 POE/POE2 거래소 주소가 Daum Games에서 Kakao Games로 이전된 뒤 Sidekick 한국어 거래 API 주소가 아직 옛 Daum 주소를 바라보는 데서 생긴 문제입니다.
+이 문제는 사용자의 설정이 잘못되었거나 Sidekick 전체가 고장난 것이라기보다, 한국 POE/POE2 거래소 주소가 Daum Games에서 Kakao Games로 이전된 문제와 2026-06-19 거래 API 응답 형식 변경이 Sidekick v2026.6.4에 아직 반영되지 않아 생긴 문제입니다.
 
 ## 만든 계기
 
@@ -57,11 +65,18 @@ The trade website requires authentication, which Sidekick does not support curre
 
 실제로는 Sidekick이 옛 Daum 주소로 요청을 보내고, 그 요청이 Kakao 주소로 리다이렉트되는 과정에서 `401 Unauthorized`가 발생하는 것이 핵심 원인이었습니다.
 
+2026-06-19에는 Kakao 거래 API의 `trade2/fetch` 응답에서 `item.explicitMods` 일부가 기존 문자열 배열이 아니라 `{ description, hash, mods }` 객체 배열로 내려오기 시작했습니다. Sidekick v2026.6.4는 이 값을 `List<string>`으로 읽고 있어 다음 예외가 발생했습니다.
+
+```text
+The JSON value could not be converted to System.String.
+Path: $.result[0].item.explicitMods[0]
+```
+
 공식 Sidekick 업데이트에서 이 부분이 반영되면 가장 좋지만, 당장 한국어 환경에서 가격 검색을 써야 하는 사람들이 있어 임시 패치판을 만들었습니다.
 
 ## 어떤 부분을 패치했나
 
-Sidekick 소스의 한국어 게임 언어 설정 파일인 `GameLanguageKo.cs`에서 거래소 기본 주소만 바꿨습니다.
+1차 패치에서는 Sidekick 소스의 한국어 게임 언어 설정 파일인 `GameLanguageKo.cs`에서 거래소 기본 주소를 바꿨습니다.
 
 기존 주소:
 
@@ -81,7 +96,21 @@ https://poe.kakaogames.com/trade2/
 https://poe.kakaogames.com/api/trade2/
 ```
 
-즉, Sidekick의 핵심 기능을 새로 만든 것이 아니라 한국어 거래 API 접속 주소를 현재 Kakao Games 주소로 교체한 패치입니다.
+2차 패치에서는 `trade2/fetch` 응답의 mod 목록이 문자열 또는 객체 어느 형태로 와도 읽을 수 있도록 JSON 변환기를 추가했습니다.
+
+```text
+문자열 예시:
+"[Accuracy|정확도] +141"
+
+객체 예시:
+{
+  "description": "[Accuracy|정확도] +143",
+  "hash": "stat.explicit.stat_803737631",
+  "mods": [...]
+}
+```
+
+즉, Sidekick의 핵심 기능을 새로 만든 것이 아니라 한국어 거래 API 주소를 현재 Kakao Games 주소로 교체하고, 오늘 바뀐 fetch 응답 형식을 Sidekick이 읽을 수 있게 한 패치입니다.
 
 ## 한국어 검색 검증 내용
 
@@ -107,9 +136,11 @@ UseInvariantTradeResults=False
 DefinitionTradeType=진홍색 목걸이
 SearchTotal=10000
 결과 예시: 진홍색 목걸이 - 환희, 진홍색 목걸이 - 돌풍
+FetchModObjectItem=경계하는 시야 / 에메랄드 반지
+FetchExplicitModObject=[Accuracy|정확도] +143
 ```
 
-즉, Sidekick 내부에서 한국어 아이템을 한국어 거래 검색값으로 인식하고, Kakao 거래 API에서 한국어 결과를 받아오는 것까지 확인했습니다.
+즉, Sidekick 내부에서 한국어 아이템을 한국어 거래 검색값으로 인식하고, Kakao 거래 API에서 한국어 결과를 받아오며, 2026-06-19 이후 객체 형태로 바뀐 `explicitMods`도 읽는 것까지 확인했습니다.
 
 ## 사용 방법
 
@@ -173,3 +204,4 @@ packages\.betaId
 ## 요약
 
 이 배포본은 한국 POE2 거래소 주소 이전 때문에 깨진 Sidekick 한국어 가격 검색을 임시로 복구하기 위한 패치판입니다. 영어 강제검색이 아니라 한국어 아이템명으로 검색하고 한국어 결과가 나오는 경로를 확인했습니다. 공식 패치가 나오기 전까지 한국어 사용자가 임시로 쓰기 위한 용도입니다.
+
