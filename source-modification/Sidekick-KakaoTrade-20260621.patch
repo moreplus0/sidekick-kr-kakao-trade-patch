@@ -1,0 +1,13 @@
+diff --git a/src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs b/src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs
+index cb330e0..4cf909c 100644
+--- a/src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs
++++ b/src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs
+@@ -9,4 +9,4 @@ public class GameLanguageKo : IGameLanguage
+-    public string PoeTradeBaseUrl => "https://poe.game.daum.net/trade/";
+-    public string PoeTradeApiBaseUrl => "https://poe.game.daum.net/api/trade/";
+-    public string Poe2TradeBaseUrl => "https://poe.game.daum.net/trade2/";
+-    public string Poe2TradeApiBaseUrl => "https://poe.game.daum.net/api/trade2/";
++    public string PoeTradeBaseUrl => "https://poe.kakaogames.com/trade/";
++    public string PoeTradeApiBaseUrl => "https://poe.kakaogames.com/api/trade/";
++    public string Poe2TradeBaseUrl => "https://poe.kakaogames.com/trade2/";
++    public string Poe2TradeApiBaseUrl => "https://poe.kakaogames.com/api/trade2/";

@@ -1,37 +1,37 @@
-Package: Sidekick-KR-KakaoTrade-v2026.6.4-20260619
-Base: Sidekick v2026.6.4 portable
+Package: Sidekick-KR-KakaoTrade-v2026.6.5-20260621
+Base: Sidekick v2026.6.5 portable
 Source repository: https://github.com/Sidekick-Poe/Sidekick
-Source commit: eb8cecc
-Source tag: v2026.6.4
-Patch date: 2026-06-19
-Distribution update: runtime-only ZIP regenerated on 2026-06-19
+Source commit: 0870b25c3ac178c4e29c1405f906b61e1bb63dea
+Source tag: v2026.6.5
+Patch date: 2026-06-21
 
 Modified files:
 src/Sidekick.Data/Languages/Implementations/GameLanguageKo.cs
-src/Sidekick.Common/Converters/StringOrObjectListJsonConverter.cs
-src/Sidekick.Apis.Poe.Trade/Trade/Models/ApiItem.cs
-tests/Sidekick.Apis.Poe.Tests/Trade/ApiItemModListParsing.cs
 
 Change:
 Korean POE/POE2 trade web/API base URLs changed from poe.game.daum.net to poe.kakaogames.com.
-Kakao trade2/fetch mod lists can now deserialize either strings or objects with a description field.
+Official Sidekick v2026.6.5 already includes the 2026-06-19 trade API response schema fix.
+This build keeps the official v2026.6.5 binaries and replaces only current\Sidekick.Data.dll with the Kakao URL patch.
 
 Verification:
-LanguageParser=ko
-LanguageUi=ko
-LeagueId=poe2.Runes of Aldur
-UseInvariantTradeResults=False
-ParsedItem=진홍색 목걸이
-DefinitionTradeType=진홍색 목걸이
-SearchTotal=10000
-Fetch results included Korean item names such as 진홍색 목걸이 - 환희 and 진홍색 목걸이 - 돌풍.
-Fetch response for 경계하는 시야 / 에메랄드 반지 included object-shaped explicitMods.
-Regression test passed: ApiItemModListParsing.DeserializesModsReturnedAsStringsOrObjects.
+dotnet build Sidekick.Data.csproj -c Release: succeeded with 0 warnings and 0 errors.
+current\Sidekick.Data.dll contains poe.kakaogames.com.
+current\Sidekick.Data.dll does not contain poe.game.daum.net.
+Kakao API fetch status: 200.
+Korean fetch sample:
+ItemName=경계하는 시야
+BaseType=에메랄드 반지
+League=Runes of Aldur
+ExplicitModDescription=[Accuracy|정확도] +143
+
+ZIP policy:
+Runtime-only portable ZIP.
+Included root entries:
+.portable
+Sidekick.exe
+Update.exe
+current\
 
 SHA256:
-current\Sidekick.Common.dll             368DA8AE4EFBE5446DC5085A1D3D249E636793CC612B89390B9B0265768D3DC1
-current\Sidekick.Apis.Poe.Trade.dll     DCFE7446999784E3AC34825AD92A31F7E56F8D482D5B04CCEB2BC6F8B443E2D0
-current\Sidekick.Data.dll               2B5492B40AD4280FA832F27282689BAD196951E7829E7E99B390FE3B617F7A12
-Sidekick.exe                            C318075F65022223C615E855CF53D1D161E23B9418F7472F4430862FEE530BC0
-current\Sidekick.exe                    BA2750FE7A4516B28FC2AC07B410E90C078619C1BBE48263C8FF15FF73CD4F2E
-Sidekick-KR-KakaoTrade-v2026.6.4-20260619.zip 40E760BAA53BD7F66C1AC926E9FB04085098CA70FB7C53F8E0783D156263C47F
+current\Sidekick.Data.dll               13DF4B8DB3660AE3E2FE7D7EB207674836279EB1252C0CB270AB200FC5B0F53A
+Sidekick-KR-KakaoTrade-v2026.6.5-20260621.zip 33500AA23A06051CC490C6C55E6AD11628AF35850FC4D2C3CD001DF17F12FA7E
